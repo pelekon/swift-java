@@ -119,7 +119,7 @@ public struct SwiftToJava {
 
       try generator.generate()
     }
-
+    
     print("[swift-java] Imported Swift module '\(swiftModule)': " + "done.".green)
   }
   

@@ -58,7 +58,13 @@ extension FFMSwift2JavaGenerator {
         self.expectedOutputSwiftFiles.remove(moduleFilename)
       }
     } catch {
-      log.warning("Failed to write to Swift thunks: \(moduleFilename)")
+      let logMessage = "Failed to write to Swift thunks: \(moduleFilename)"
+      if config.allowContinueOnError ?? false {
+        log.warning(logMessage)
+      } else {
+        log.error(logMessage)
+        throw error
+      }
     }
 
     // === All types
@@ -81,9 +87,14 @@ extension FFMSwift2JavaGenerator {
         do {
           try printSwiftThunkSources(&printer, ty: ty)
         } catch {
-          log.warning("Failed to print to Swift thunks for type'\(ty.qualifiedName)' to '\(filename)', error: \(error)")
+          let logMessage = "Failed to print to Swift thunks for type'\(ty.qualifiedName)' to '\(filename)', error: \(error)"
+          if config.allowContinueOnError ?? false {
+            log.warning(logMessage)
+          } else {
+            log.error(logMessage)
+            throw error
+          }
         }
-        
       }
 
       log.warning("Write Swift thunks file: \(filename.bold)")
@@ -96,7 +107,13 @@ extension FFMSwift2JavaGenerator {
           self.expectedOutputSwiftFiles.remove(filename)
         }
       } catch {
-        log.warning("Failed to write to Swift thunks: \(filename), error: \(error)")
+        let logMessage = "Failed to write to Swift thunks: \(filename), error: \(error)"
+        if config.allowContinueOnError ?? false {
+          log.warning(logMessage)
+        } else {
+          log.error(logMessage)
+          throw error
+        }
       }
     }
   }

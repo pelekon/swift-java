@@ -65,6 +65,8 @@ public struct Configuration: Codable {
     asyncFuncMode ?? .default
   }
 
+  public var allowContinueOnError: Bool?
+
   // ==== wrap-java ---------------------------------------------------------
 
   /// The Java class path that should be passed along to the swift-java tool.

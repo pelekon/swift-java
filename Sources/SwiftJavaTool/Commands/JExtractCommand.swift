@@ -70,6 +70,9 @@ extension SwiftJava {
     @Option(help: "The memory management mode to use for the generated code. By default, the user must explicitly provide `SwiftArena` to all calls that require it. By choosing `allowGlobalAutomatic`, user can omit this parameter and a global GC-based arena will be used.")
     var memoryManagementMode: JExtractMemoryManagementMode?
 
+    @Option(help: "Allows JExtract to continue generation of output after encounterring an error. Default: false")
+    var allowContinueOnError: Bool?
+
     @Option(
       help: """
             A swift-java configuration file for a given Swift module name on which this module depends,
@@ -100,6 +103,7 @@ extension SwiftJava.JExtractCommand {
     configure(&config.minimumInputAccessLevelMode, overrideWith: self.minimumInputAccessLevelMode)
     configure(&config.memoryManagementMode, overrideWith: self.memoryManagementMode)
     configure(&config.asyncFuncMode, overrideWith: self.asyncFuncMode)
+    configure(&config.allowContinueOnError, overrideWith: self.allowContinueOnError)
 
     try checkModeCompatibility(config: config)
 

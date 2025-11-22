@@ -97,7 +97,7 @@ extension Swift2JavaTranslator {
 
     for input in self.inputs {
       log.trace("Analyzing \(input.path)")
-      visitor.visit(inputFile: input)
+      try visitor.visit(inputFile: input)
     }
 
     // If any API uses 'Foundation.Data' or 'FoundationEssentials.Data', 
@@ -105,7 +105,7 @@ extension Swift2JavaTranslator {
     if let dataDecl = self.symbolTable[.foundationData] ?? self.symbolTable[.essentialsData] {
       let dataProtocolDecl = (self.symbolTable[.foundationDataProtocol] ?? self.symbolTable[.essentialsDataProtocol])!
       if self.isUsing(where: { $0 == dataDecl || $0 == dataProtocolDecl }) {
-        visitor.visit(nominalDecl: dataDecl.syntax!.asNominal!, in: nil, sourceFilePath: "Foundation/FAKE_FOUNDATION_DATA.swift")
+        try visitor.visit(nominalDecl: dataDecl.syntax!.asNominal!, in: nil, sourceFilePath: "Foundation/FAKE_FOUNDATION_DATA.swift")
       }
     }
   }

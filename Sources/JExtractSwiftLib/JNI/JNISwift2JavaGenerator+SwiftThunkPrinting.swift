@@ -103,7 +103,13 @@ extension JNISwift2JavaGenerator {
         }
       }
     } catch {
-      logger.warning("Failed to write to Swift thunks: \(moduleFilename)")
+      let logMessage = "Failed to write to Swift thunks: \(moduleFilename)"
+      if config.allowContinueOnError ?? false {
+        logger.warning(logMessage)
+      } else {
+        logger.error(logMessage)
+        throw error
+      }
     }
   }
 
